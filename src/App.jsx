@@ -89,15 +89,22 @@ export default function App() {
     }
   }, [step, currentMediaIndex]);
 
+  // Надежный контроль петли: для интро используем встроенный loop до 9 секунды, 
+  // а на шаге 4 крутим фрагмент через onTimeUpdate
   const handleTimeUpdate = () => {
-    if (audioRef.current && step === 4) {
+    if (audioRef.current) {
       const audio = audioRef.current;
       
       if (audio.volume !== 0.25) {
         audio.volume = 0.25;
       }
 
-      if (audio.currentTime >= 99) {
+      // Если мы дошли до 9 секунды в интро, но loop по какой-то причине не сработал — принудительно возвращаем в начало
+      if (step < 4 && audio.currentTime >= 9.0) {
+        audio.currentTime = 0;
+      } 
+      // После открытия конверта (шаг 4): зацикливаем фрагмент 1:17 - 1:39
+      else if (step === 4 && audio.currentTime >= 99) {
         audio.currentTime = 77;
       }
     }
@@ -155,10 +162,12 @@ export default function App() {
       boxSizing: 'border-box'
     }}>
       
+      {/* Добавляем встроенный атрибут loop для безупречной работы интро на хостинге */}
       <audio 
         ref={audioRef} 
         src="/music.mp3" 
         preload="auto" 
+        loop={step < 4}
         onTimeUpdate={handleTimeUpdate} 
       />
 
