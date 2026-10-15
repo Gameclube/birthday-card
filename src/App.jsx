@@ -24,7 +24,6 @@ export default function App() {
     { type: 'video', src: '/photos/6.mp4', caption: "С твоим днем! 🥳", duration: 4000 },
   ];
 
-  // Клик по кнопке «Начать»: запуск музыки на тихом уровне громкости (0.25)
   const handleStartExperience = () => {
     if (audioRef.current) {
       const audio = audioRef.current;
@@ -63,7 +62,6 @@ export default function App() {
     }
   }, [step, textIndex]);
 
-  // Слайд-шоу: если дошли до конца фото/видео, переходим на шаг 5 (показ кнопки «Повторить»)
   useEffect(() => {
     if (step === 4) {
       const currentItem = mediaList[currentMediaIndex];
@@ -71,7 +69,6 @@ export default function App() {
         if (currentMediaIndex < mediaList.length - 1) {
           setCurrentMediaIndex(currentMediaIndex + 1);
         } else {
-          // Плавно затухаем музыку в самом конце слайд-шоу
           if (audioRef.current) {
             const audio = audioRef.current;
             let v = audio.volume;
@@ -84,7 +81,7 @@ export default function App() {
               }
             }, 50);
           }
-          setStep(5); // Шаг завершения
+          setStep(5);
         }
       }, currentItem.duration);
 
@@ -92,7 +89,6 @@ export default function App() {
     }
   }, [step, currentMediaIndex]);
 
-  // Контроль бесшовного зацикливания во время шага 4
   const handleTimeUpdate = () => {
     if (audioRef.current && step === 4) {
       const audio = audioRef.current;
@@ -101,7 +97,6 @@ export default function App() {
         audio.volume = 0.25;
       }
 
-      // Зацикливаем фрагмент 1:17 - 1:39
       if (audio.currentTime >= 99) {
         audio.currentTime = 77;
       }
@@ -118,7 +113,6 @@ export default function App() {
     }));
   }, []);
 
-  // Открытие конверта: переход на 1:17
   const handleOpenEnvelope = () => {
     if (audioRef.current) {
       const audio = audioRef.current;
@@ -129,7 +123,6 @@ export default function App() {
     setCurrentMediaIndex(0);
   };
 
-  // Перезапуск сразу с пролистывания фото
   const handleRestart = () => {
     setCurrentMediaIndex(0);
     setStep(4);
@@ -212,7 +205,6 @@ export default function App() {
         }
       `}</style>
 
-      {/* ШАГ 0 */}
       {step === 0 && (
         <div style={{ zIndex: 10, textAlign: 'center', animation: 'popUp 0.6s ease-out' }}>
           <div 
@@ -235,7 +227,6 @@ export default function App() {
         </div>
       )}
 
-      {/* ШАГ 1 */}
       {step === 1 && (
         <div style={{ 
           zIndex: 20,
@@ -255,7 +246,6 @@ export default function App() {
         </div>
       )}
 
-      {/* ШАГ 2 */}
       {step === 2 && (
         <div style={{ zIndex: 10, textAlign: 'center', width: '90%', maxWidth: '800px' }}>
           <h1 
@@ -276,7 +266,6 @@ export default function App() {
         </div>
       )}
 
-      {/* ШАГ 3 */}
       {step === 3 && (
         <div 
           onClick={handleOpenEnvelope} 
@@ -327,7 +316,6 @@ export default function App() {
         </div>
       )}
 
-      {/* ШАГ 4: Слайд-шоу */}
       {step === 4 && (
         <div style={{ zIndex: 10, textAlign: 'center', maxWidth: '600px', padding: '20px' }}>
           
@@ -370,6 +358,7 @@ export default function App() {
                 loop 
                 muted 
                 playsInline 
+                preload="auto"
                 style={{ width: '320px', height: '420px', objectFit: 'cover', borderRadius: '16px', display: 'block' }} 
               />
             )}
@@ -381,7 +370,6 @@ export default function App() {
         </div>
       )}
 
-      {/* ШАГ 5: Кнопка Повторить после завершения слайд-шоу */}
       {step === 5 && (
         <div style={{ zIndex: 10, textAlign: 'center', animation: 'popUp 0.6s ease-out' }}>
           <h2 style={{ fontSize: '2.5rem', color: '#ff3385', marginBottom: '25px', textShadow: '0 0 30px rgba(255,51,133,0.7)' }}>
