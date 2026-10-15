@@ -20,8 +20,8 @@ export default function App() {
     { type: 'img', src: '/photos/2.jpg', caption: "Твоя улыбка бесценна ❤️", duration: 3000 },
     { type: 'img', src: '/photos/3.jpg', caption: "Прекрасный момент 💫", duration: 2900 },
     { type: 'img', src: '/photos/4.jpg', caption: "Пусть счастье окружает всюду 🌟", duration: 3000 },
-    { type: 'video', src: '/photos/5.mp4', caption: "Лучшие воспоминания 💫", duration: 4000 },
-    { type: 'video', src: '/photos/6.mp4', caption: "С твоим днем! 🥳", duration: 4000 },
+    { type: 'video', src: '/photos/5.jpg', caption: "Лучшие воспоминания 💫", duration: 4000 },
+    { type: 'video', src: '/photos/6.jpg', caption: "С твоим днем! 🥳", duration: 4000 },
   ];
 
   const handleStartExperience = () => {
